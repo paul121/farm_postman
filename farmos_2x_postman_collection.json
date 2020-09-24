@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "fa9b7d24-042d-452e-bb94-ab1ad06ea1c8",
+		"name": "farmOS 2.x",
+		"description": "farmOS 2.x API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OAuth",
+			"item": [
+				{
+					"name": "Refresh token grant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refreshToken}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "farm",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "farm_worker",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Refresh the access token."
+					},
+					"response": []
+				},
+				{
+					"name": "Password credentials grant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5f77b83e-e24c-4629-b90c-76aa769dce3b",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "farm",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "farm_worker",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "tester",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Authorize with the username + password"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication requests. Saves tokens as variables!",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6deecf9e-c6e5-4222-adfa-f2bf51780d15",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed078c40-50c4-4882-b56b-8ace4cd0c232",
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code == 200) {",
+							"    var data = pm.response.json();",
+							"    pm.environment.set(\"accessToken\", data.access_token);",
+							"    pm.environment.set(\"refreshToken\", data.refresh_token);",
+							"}"
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/user/user",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ec83bba3-571c-4e36-9b31-4c85acbd602d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b92e2f99-b358-4178-b507-bd283156ad3e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
