@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "fa9b7d24-042d-452e-bb94-ab1ad06ea1c8",
-		"name": "farmOS 2.x",
+		"name": "farmOS 2.x API",
 		"description": "farmOS 2.x API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,6 +12,9 @@
 				{
 					"name": "Refresh token grant",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -68,6 +71,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -150,8 +156,30 @@
 		{
 			"name": "Info",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"url": {
 					"raw": "{{host}}/api",
 					"host": [
@@ -167,8 +195,24 @@
 		{
 			"name": "Users",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{host}}/api/user/user",
 					"host": [
@@ -182,18 +226,128 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get log",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/log/input",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"log",
+						"input"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create log",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"log--activity\",\n        \"attributes\": {\n            \"name\": \"My Log new name\"\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/log/activity",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"log",
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get log",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"log--observation\",\n        \"attributes\": {\n            \"name\": \"My Log\"\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/log/observation",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"log",
+						"observation"
+					]
+				}
+			},
+			"response": []
 		}
 	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "{{accessToken}}",
-				"type": "string"
-			}
-		]
-	},
 	"event": [
 		{
 			"listen": "prerequest",
